@@ -69,7 +69,7 @@ function ChatWidget() {
     }
 
     // Default Fallback
-    return "Thanks for reaching out! I've received your query and will reply as soon as possible. For immediate personal assistance, you can also ping me directly on WhatsApp at +91 98765 43210. 💬";
+    return "Thanks for reaching out! I've received your query and will reply as soon as possible. For immediate personal assistance, you can also ping me directly on WhatsApp at +91 7520998730 0r 8077272844. 💬";
   };
 
   const sendMessage = (textToSend) => {
