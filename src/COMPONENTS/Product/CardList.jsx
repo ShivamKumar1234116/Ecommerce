@@ -1,38 +1,51 @@
+import React from "react";
 import Card from "./Card";
 import { motion } from "framer-motion";
-const productData = {
+
+const defaultProduct = {
+  id: "default-card-prod",
   name: "Stylish Girls Top",
-  price: "₹999",
+  price: 999,
   desc: "Trendy and comfortable top for daily wear.",
   img: "/images/img2.jpeg",
   badge: "🔥 Sale",
 };
 
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 50, scale: 0.9 },
-  visible: { opacity: 1, y: 0, scale: 1 },
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
 };
 
-<motion.div
-  variants={cardVariants}
-  transition={{ duration: 0.5 }}
-  className="your-card-class"
-></motion.div>
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  show: { opacity: 1, y: 0 },
+};
 
-function CardList() {
+function CardList({ products }) {
+  // If no products provided, render default placeholders
+  const list = products && products.length > 0 
+    ? products 
+    : Array(8).fill(defaultProduct).map((p, idx) => ({ ...p, id: `default-card-${idx}` }));
+
   return (
-    <div className="flex flex-wrap gap-15 justify-center bg-black p-10">
-      <Card product={productData} />
-      <Card product={productData} />
-      <Card product={productData} />
-      <Card product={productData} />
-     <Card product={productData} /> 
-     <Card product={productData} /> 
-      <Card product={productData} /> 
-       <Card product={productData} /> 
-    
-    </div>
+    <motion.div 
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.1 }}
+      className="flex flex-wrap gap-8 md:gap-12 justify-center bg-black p-4 sm:p-8"
+    >
+      {list.map((prod) => (
+        <motion.div key={prod.id} variants={itemVariants}>
+          <Card product={prod} />
+        </motion.div>
+      ))}
+    </motion.div>
   );
 }
 

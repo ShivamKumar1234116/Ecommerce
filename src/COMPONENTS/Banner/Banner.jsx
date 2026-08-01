@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 const images = [
@@ -10,6 +11,7 @@ const images = [
 
 function Banner() {
   const [index, setIndex] = useState(0);
+  const navigate = useNavigate();
 
   // 🔄 Auto Slide
   useEffect(() => {
@@ -71,11 +73,17 @@ function Banner() {
             transition={{ delay: 0.6 }}
             className="flex gap-4 mt-6"
           >
-            <button className="px-6 py-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 shadow-lg hover:scale-110 transition">
+            <button 
+              onClick={() => navigate("/collections/all")}
+              className="px-6 py-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 shadow-lg hover:scale-110 transition cursor-pointer"
+            >
               Shop Now
             </button>
 
-            <button className="px-6 py-2 rounded-full border border-white/30 hover:bg-white hover:text-black transition">
+            <button 
+              onClick={() => navigate("/collections/all")}
+              className="px-6 py-2 rounded-full border border-white/30 hover:bg-white hover:text-black transition cursor-pointer"
+            >
               Explore
             </button>
           </motion.div>
@@ -99,25 +107,27 @@ function Banner() {
 
       {/* 🔥 PREMIUM GRID WITH SCROLL ANIMATION */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-5 px-4 md:px-10 mt-10">
-
-        {images.map((img, i) => (
+        {[
+          { title: "Tops", slug: "tops" },
+          { title: "Jeans", slug: "jeans" },
+          { title: "Dresses", slug: "dresses" },
+          { title: "Bags", slug: "bags" }
+        ].map((cat, i) => (
           <motion.div
             key={i}
-
             // 🔥 SCROLL EFFECT
             initial={{ opacity: 0, y: 80, scale: 0.9 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.6, delay: i * 0.15 }}
             viewport={{ once: true, amount: 0.3 }}
-
             // Hover
             whileHover={{ scale: 1.07 }}
-
+            onClick={() => navigate(`/collections/${cat.slug}`)}
             className="relative h-[160px] md:h-[200px] rounded-2xl overflow-hidden group cursor-pointer shadow-lg"
           >
             <img
-              src={img}
-              alt="category"
+              src={images[i % images.length]}
+              alt={cat.title}
               className="w-full h-full object-cover group-hover:scale-110 transition duration-700"
             />
 
@@ -130,13 +140,12 @@ function Banner() {
             {/* Text */}
             <div className="absolute bottom-4 left-4">
               <h2 className="text-lg md:text-xl font-bold">
-                Category {i + 1}
+                {cat.title}
               </h2>
               <p className="text-xs text-gray-300">Shop Now →</p>
             </div>
           </motion.div>
         ))}
-
       </div>
     </div>
   );

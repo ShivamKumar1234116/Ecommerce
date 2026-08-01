@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 const images = [
@@ -14,8 +15,8 @@ const images = [
 
 function Hero() {
   const [index, setIndex] = useState(0);
+  const navigate = useNavigate();
 
-  // 🔄 Smooth shuffle
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % images.length);
@@ -23,7 +24,6 @@ function Hero() {
     return () => clearInterval(interval);
   }, []);
 
-  // 🎯 Dynamic images
   const mainImage = images[index];
   const leftImage = images[(index + 1) % images.length];
   const rightImage = images[(index + 2) % images.length];
@@ -33,9 +33,7 @@ function Hero() {
   const extra2 = images[(index + 6) % images.length];
 
   return (
-    <section className="relative w-full min-h-[100vh] overflow-hidden flex items-center">
-
-      {/* 🔥 Background */}
+    <section className="relative w-full min-h-screen overflow-hidden flex items-center py-12 sm:py-16">
       <AnimatePresence mode="wait">
         <motion.img
           key={mainImage}
@@ -45,33 +43,25 @@ function Hero() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 1.2 }}
-          className="absolute w-full h-full object-cover object-center"
+          className="absolute inset-0 w-full h-full object-cover object-center"
         />
       </AnimatePresence>
 
-      {/* 🎨 Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/20"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-black/20"></div>
+      <div className="absolute top-16 left-6 w-56 h-56 bg-pink-500/20 blur-3xl rounded-full hidden lg:block"></div>
+      <div className="absolute bottom-10 right-6 w-56 h-56 bg-purple-500/20 blur-3xl rounded-full hidden lg:block"></div>
 
-      {/* 🌟 Glow */}
-      <div className="absolute top-20 left-20 w-72 h-72 bg-pink-500/30 blur-3xl rounded-full"></div>
-      <div className="absolute bottom-10 right-10 w-72 h-72 bg-purple-500/30 blur-3xl rounded-full"></div>
-
-      {/* 💃 Content */}
-      <div className="relative max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center w-full">
-
-        {/* LEFT TEXT */}
+      <div className="relative max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 grid gap-8 items-center w-full md:grid-cols-2">
         <motion.div
           key={index}
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
-          className="p-6 md:p-10 rounded-2xl text-white space-y-6 shadow-xl"
+          className="p-4 sm:p-6 rounded-3xl bg-black/40 backdrop-blur-xl text-white space-y-5 shadow-2xl"
         >
-          <h1 className="text-3xl md:text-5xl font-extrabold leading-tight drop-shadow-2xl">
-            Discover Your Style <br />
-
-            {/* 🔥 Highlighted Brand */}
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-extrabold leading-tight text-center sm:text-left">
+            Discover Your Style
+            <br />
             <span className="relative inline-block font-serif text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-rose-400 to-purple-400">
-
               {"Neha Garments".split("").map((char, i) => (
                 <motion.span
                   key={i}
@@ -83,21 +73,11 @@ function Hero() {
                   {char === " " ? "\u00A0" : char}
                 </motion.span>
               ))}
-
-              {/* ✨ Glow */}
               <motion.span
                 className="absolute inset-0 blur-xl opacity-40 bg-gradient-to-r from-pink-500 to-purple-500"
-                animate={{
-                  opacity: [0.3, 0.7, 0.3],
-                  scale: [1, 1.1, 1],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                }}
+                animate={{ opacity: [0.3, 0.7, 0.3], scale: [1, 1.1, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
               />
-
-              {/* ✨ Shine */}
               <motion.span
                 className="absolute top-0 left-[-100%] w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent"
                 animate={{ left: ["-100%", "100%"] }}
@@ -106,102 +86,90 @@ function Hero() {
             </span>
           </h1>
 
-          <p className="text-gray-200 text-sm md:text-lg">
-            Shop trendy jeans, tops & more. Free shipping on orders $50+. 
-            <span className="text-pink-300"> Be bold. Be stylish.</span>
+          <p className="text-gray-200 text-xs sm:text-sm md:text-lg text-center sm:text-left">
+            Shop trendy jeans, tops & more. Free shipping on orders ₹50+. <span className="text-pink-300">Be bold. Be stylish.</span>
           </p>
 
-          <div className="flex gap-4">
-            <button className="px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full font-semibold shadow-lg hover:scale-105 transition">
+          <div className="flex flex-col gap-3 sm:flex-row items-center justify-center sm:justify-start">
+            <button 
+              onClick={() => navigate("/collections/all")}
+              className="w-full sm:w-auto px-5 py-3 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full font-semibold shadow-lg hover:scale-105 transition cursor-pointer"
+            >
               Shop Now
             </button>
-
-            <button className="px-6 py-3 border border-white rounded-full hover:bg-white hover:text-black transition">
+            <button 
+              onClick={() => navigate("/collections/all")}
+              className="w-full sm:w-auto px-5 py-3 border border-white rounded-full hover:bg-white hover:text-black transition cursor-pointer"
+            >
               Explore
             </button>
           </div>
         </motion.div>
 
-        {/* 🔥 FLOATING IMAGES */}
-        <div className="relative flex justify-center items-center">
-
-          {/* CENTER */}
+        <div className="relative flex justify-center items-center px-4 sm:px-0">
           <motion.img
             key={mainImage}
             src={mainImage}
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
-            className="w-64 md:w-80 rounded-2xl shadow-2xl z-20"
+            className="w-full max-w-[280px] sm:max-w-[320px] md:max-w-[420px] rounded-3xl shadow-2xl z-20"
           />
 
-          {/* TOP */}
           <motion.img
             src={topImage}
-            animate={{ y: [-120, -140, -120], rotate: [-8, 8, -8] }}
+            animate={{ y: [-100, -120, -100], rotate: [-8, 8, -8] }}
             transition={{ duration: 6, repeat: Infinity }}
-            className="absolute top-0 w-32 md:w-40 rounded-xl opacity-90"
+            className="hidden sm:block absolute top-0 w-24 sm:w-32 md:w-36 rounded-xl opacity-90"
           />
 
-          {/* LEFT */}
           <motion.img
             src={leftImage}
-            animate={{ x: [-100, -120, -100], y: [0, -30, 0] }}
+            animate={{ x: [-90, -110, -90], y: [0, -20, 0] }}
             transition={{ duration: 6, repeat: Infinity }}
-            className="absolute left-0 w-36 md:w-48 rounded-xl opacity-90"
+            className="hidden md:block absolute left-0 w-32 md:w-40 rounded-xl opacity-90"
           />
 
-          {/* RIGHT */}
           <motion.img
             src={rightImage}
-            animate={{ x: [100, 120, 100], y: [0, 30, 0] }}
+            animate={{ x: [90, 110, 90], y: [0, 20, 0] }}
             transition={{ duration: 6, repeat: Infinity }}
-            className="absolute right-0 w-36 md:w-48 rounded-xl opacity-90"
+            className="hidden md:block absolute right-0 w-32 md:w-40 rounded-xl opacity-90"
           />
 
-          {/* BOTTOM */}
           <motion.img
             src={bottomImage}
-            animate={{ y: [120, 140, 120] }}
+            animate={{ y: [100, 120, 100] }}
             transition={{ duration: 6, repeat: Infinity }}
-            className="absolute bottom-0 w-32 md:w-40 rounded-xl opacity-80"
+            className="hidden sm:block absolute bottom-0 w-24 sm:w-32 md:w-36 rounded-xl opacity-80"
           />
 
-          {/* EXTRA FLOAT */}
           <motion.img
             src={extra1}
-            animate={{
-              x: [-50, 50, -50],
-              y: [50, -50, 50],
-            }}
+            animate={{ x: [-40, 40, -40], y: [40, -40, 40] }}
             transition={{ duration: 10, repeat: Infinity }}
-            className="absolute w-24 opacity-70 rounded-lg"
+            className="hidden lg:block absolute w-20 opacity-70 rounded-lg"
           />
 
           <motion.img
             src={extra2}
-            animate={{
-              x: [60, -60, 60],
-              y: [-60, 60, -60],
-            }}
+            animate={{ x: [50, -50, 50], y: [-50, 50, -50] }}
             transition={{ duration: 12, repeat: Infinity }}
-            className="absolute w-20 opacity-60 rounded-lg"
+            className="hidden lg:block absolute w-16 opacity-60 rounded-lg"
           />
 
-          {/* 🔥 Badge */}
           <motion.div
             key={"badge" + index}
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            className="absolute top-5 right-5 bg-gradient-to-r from-pink-500 to-purple-500 text-white px-4 py-2 rounded-xl text-xs shadow-lg"
+            className="absolute top-4 right-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white px-4 py-2 rounded-xl text-xs shadow-lg"
           >
             🔥 50% OFF
           </motion.div>
         </div>
       </div>
 
-      {/* ✨ Bottom Fade */}
-      <div className="absolute bottom-0 w-full h-40 bg-gradient-to-t from-black to-transparent"></div>
+      <div className="absolute bottom-0 w-full h-36 bg-gradient-to-t from-black to-transparent pointer-events-none"></div>
     </section>
   );
 }
