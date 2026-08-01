@@ -65,7 +65,7 @@ function ChatWidget() {
       return "Exciting news! You can use the code GLAM50 at checkout to get an extra discount on our trending items. Let me know if you run into any issues applying it! 🏷️";
     }
     if (text.includes("whatsapp") || text.includes("phone") || text.includes("call") || text.includes("contact")) {
-      return "You can reach my direct WhatsApp at +91 98765 43210 or email me at neha@nehagarments.com. I'm always online to chat! 📞";
+      return "You can reach my direct WhatsApp at +91 7520998730 And 8077272844 or email me at neha@nehagarments.com. I'm always online to chat! 📞";
     }
 
     // Default Fallback
